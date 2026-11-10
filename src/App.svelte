@@ -27,19 +27,26 @@
   function restart() {
     screen = "start";
   }
+
+  function handleAnswer(isCorrect) {
+    if (isCorrect) score++;
+  }
 </script>
 
 <main>
   {#if screen === "start"}
     <StartScreen total={questions.length} onstart={startQuiz} />
   {:else if screen === "quiz"}
-    <QuestionCard
-      question={currentQuestion}
-      number={currentIndex + 1}
-      total={questions.length}
-      {score}
-      onnext={nextQuestion}
-    />
+    {#key currentIndex}
+      <QuestionCard
+        question={currentQuestion}
+        number={currentIndex + 1}
+        total={questions.length}
+        {score}
+        onanswer={handleAnswer}
+        onnext={nextQuestion}
+      />
+    {/key}
   {:else}
     <ResultScreen {score} total={questions.length} onrestart={restart} />
   {/if}
