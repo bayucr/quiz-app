@@ -1,15 +1,15 @@
 <script>
   import questions from "./lib/questions.json";
+  import StartScreen from "./lib/StartScreen.svelte";
+  import QuestionCard from "./lib/QuestionCard.svelte";
+  import ResultScreen from "./lib/ResultScreen.svelte";
 
-  // STATE: data yang berubah selama quiz berjalan
   let screen = $state("start");
   let currentIndex = $state(0);
   let score = $state(0);
 
-  // DERIVED: nilai yang dihitung dari state lain
   let currentQuestion = $derived(questions[currentIndex]);
 
-  // FUNGSI: mengubah state
   function startQuiz() {
     currentIndex = 0;
     score = 0;
@@ -31,21 +31,17 @@
 
 <main>
   {#if screen === "start"}
-    <h1>Quiz Svelte</h1>
-    <p>{questions.length} soal tentang Svelte 5.</p>
-    <button onclick={startQuiz}>Mulai</button>
+    <StartScreen total={questions.length} onstart={startQuiz} />
   {:else if screen === "quiz"}
-    <p>Soal {currentIndex + 1} dari {questions.length}</p>
-    <h2>{currentQuestion.question}</h2>
-    <p>Skor: {score}</p>
-
-    <!-- tombol sementara, hanya untuk mencoba state -->
-    <button onclick={() => score++}>Tambah skor (tes)</button>
-    <button onclick={nextQuestion}>Berikutnya</button>
+    <QuestionCard
+      question={currentQuestion}
+      number={currentIndex + 1}
+      total={questions.length}
+      {score}
+      onnext={nextQuestion}
+    />
   {:else}
-    <h1>Selesai!</h1>
-    <p>Skor akhir: {score}</p>
-    <button onclick={restart}>Ulangi</button>
+    <ResultScreen {score} total={questions.length} onrestart={restart} />
   {/if}
 </main>
 
@@ -54,9 +50,5 @@
     max-width: 520px;
     margin: 3rem auto;
     text-align: center;
-  }
-
-  button {
-    margin: 0.25rem;
   }
 </style>
