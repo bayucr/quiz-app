@@ -1,4 +1,5 @@
 <script>
+  import questions from "./lib/questions.json";
   let nama = $state("Pelajar");
   let klik = $state(0);
 </script>
@@ -10,6 +11,9 @@
   <input bind:value={nama} placeholder="Ketik namamu" />
 
   <button onclick={() => klik++}>Diklik {klik} kali</button>
+
+  <p>{questions[0].question}</p>
+  <p>Jumlah soal: {questions.length}</p>
 </main>
 
 <style>

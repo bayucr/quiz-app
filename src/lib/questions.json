@@ -1,0 +1,107 @@
+[
+  {
+    "id": 1,
+    "question": "Apa yang membedakan Svelte dari kebanyakan framework frontend lain?",
+    "options": [
+      "Svelte adalah compiler yang mengubah komponen menjadi JavaScript efisien saat build",
+      "Svelte adalah library CSS untuk membuat tampilan",
+      "Svelte adalah database yang berjalan di browser",
+      "Svelte hanya bisa dipakai di sisi server"
+    ],
+    "answer": 0,
+    "explanation": "Svelte bekerja sebagai compiler. Kodemu diubah menjadi JavaScript yang ringan pada saat build, sehingga hasilnya cepat dan kecil."
+  },
+  {
+    "id": 2,
+    "question": "Apa ekstensi file untuk sebuah komponen Svelte?",
+    "options": [".jsx", ".vue", ".svelte", ".component"],
+    "answer": 2,
+    "explanation": "Satu file berekstensi .svelte adalah satu komponen, berisi bagian <script>, markup HTML, dan <style>."
+  },
+  {
+    "id": 3,
+    "question": "Pada Svelte 5, cara membuat reactive state adalah...",
+    "options": [
+      "let count = reactive(0)",
+      "let count = $state(0)",
+      "let count = useState(0)",
+      "let count = ref(0)"
+    ],
+    "answer": 1,
+    "explanation": "$state adalah 'rune' di Svelte 5. Saat nilainya berubah, bagian tampilan yang memakainya ikut diperbarui otomatis."
+  },
+  {
+    "id": 4,
+    "question": "Bagaimana cara menampilkan nilai variabel `skor` di dalam markup Svelte?",
+    "options": ["{{ skor }}", "<%= skor %>", "${skor}", "{skor}"],
+    "answer": 3,
+    "explanation": "Kurung kurawal tunggal { } menyisipkan ekspresi JavaScript ke dalam HTML."
+  },
+  {
+    "id": 5,
+    "question": "Pada Svelte 5, bagaimana cara memasang event klik pada tombol?",
+    "options": [
+      "<button onclick={handler}>",
+      "<button on:click={handler}>",
+      "<button @click=\"handler\">",
+      "<button (click)=\"handler()\">"
+    ],
+    "answer": 0,
+    "explanation": "Svelte 5 memakai atribut seperti HTML biasa: onclick. Sintaks on:click adalah gaya lama (Svelte 4)."
+  },
+  {
+    "id": 6,
+    "question": "Direktif apa yang menghubungkan nilai <input> dan variabel secara dua arah?",
+    "options": ["bind:value", "model:value", "sync:value", "two-way:value"],
+    "answer": 0,
+    "explanation": "bind:value membuat input dan variabel selalu sinkron: mengetik mengubah variabel, dan mengubah variabel memperbarui input."
+  },
+  {
+    "id": 7,
+    "question": "Bagaimana perilaku CSS di dalam blok <style> sebuah komponen Svelte?",
+    "options": [
+      "Berlaku global ke seluruh aplikasi",
+      "Hanya berlaku di komponen itu (scoped) secara bawaan",
+      "Tidak berfungsi kecuali memakai CSS Modules",
+      "Hanya berlaku untuk elemen <body>"
+    ],
+    "answer": 1,
+    "explanation": "CSS di <style> otomatis terisolasi ke komponen tersebut, sehingga tidak bentrok dengan komponen lain."
+  },
+  {
+    "id": 8,
+    "question": "Pada Svelte 5, bagaimana komponen anak menerima data dari komponen induk?",
+    "options": [
+      "Lewat props, dibaca dengan $props()",
+      "Lewat localStorage",
+      "Lewat fungsi document.getElementById",
+      "Tidak bisa, data tidak dapat dikirim antar komponen"
+    ],
+    "answer": 0,
+    "explanation": "Induk mengirim data sebagai atribut, misalnya <QuestionCard teks=\"...\" />, dan anak membacanya dengan let { teks } = $props()."
+  },
+  {
+    "id": 9,
+    "question": "Blok mana yang dipakai untuk menampilkan elemen secara kondisional di Svelte?",
+    "options": [
+      "{#if kondisi} ... {/if}",
+      "<if kondisi> ... </if>",
+      "{{#if kondisi}}",
+      "v-if=\"kondisi\""
+    ],
+    "answer": 0,
+    "explanation": "Svelte punya blok template seperti {#if}, {:else}, dan {/if} untuk merender tampilan berdasarkan kondisi."
+  },
+  {
+    "id": 10,
+    "question": "Blok mana yang dipakai untuk mengulang daftar data menjadi elemen HTML?",
+    "options": [
+      "{#each daftar as item} ... {/each}",
+      "{#loop daftar} ... {/loop}",
+      "<for item in daftar>",
+      "{#for item of daftar}"
+    ],
+    "answer": 0,
+    "explanation": "{#each} adalah cara Svelte mengulang array. Kita akan memakainya untuk menampilkan pilihan jawaban di tiap soal."
+  }
+]
