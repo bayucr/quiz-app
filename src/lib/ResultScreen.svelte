@@ -4,9 +4,12 @@
   let percent = $derived(Math.round((score / total) * 100));
 </script>
 
-<h1>Selesai!</h1>
-<p class="score">{score} dari {total} benar ({percent}%)</p>
-<button onclick={onrestart}>Ulangi quiz</button>
+<div class="summary">
+  <h1>Selesai!</h1>
+  <p class="big">{score} dari {total} benar</p>
+  <p class="muted">{percent}%</p>
+  <button class="primary" onclick={onrestart}>Ulangi quiz</button>
+</div>
 
 <h2>Rekap jawaban</h2>
 <ul class="recap">
@@ -14,7 +17,8 @@
     <li class={answers[i].isCorrect ? "ok" : "bad"}>
       <strong>{i + 1}. {q.question}</strong>
       <span>
-        Jawabanmu: {answers[i].selected === null
+        Jawabanmu:
+        {answers[i].selected === null
           ? "Waktu habis"
           : q.options[answers[i].selected]}
       </span>
@@ -26,14 +30,26 @@
 </ul>
 
 <style>
-  .score {
-    font-size: 1.25rem;
+  .summary {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .big {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .muted {
+    margin: 0 0 1rem;
+    color: var(--muted);
   }
 
   .recap {
     list-style: none;
+    margin: 0;
     padding: 0;
-    text-align: left;
   }
 
   .recap li {
@@ -41,16 +57,17 @@
     flex-direction: column;
     gap: 0.25rem;
     margin: 0.75rem 0;
-    padding: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: var(--bg);
     border-left: 4px solid;
-    border-radius: 4px;
+    border-radius: 6px;
   }
 
   .ok {
-    border-color: #2e9e5b;
+    border-color: var(--correct);
   }
 
   .bad {
-    border-color: #d64545;
+    border-color: var(--wrong);
   }
 </style>

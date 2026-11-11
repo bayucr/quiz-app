@@ -40,35 +40,57 @@
 </script>
 
 <main>
-  {#if screen === "start"}
-    <StartScreen total={questions.length} onstart={startQuiz} />
-  {:else if screen === "quiz"}
-    {#key currentIndex}
-      <QuestionCard
-        question={currentQuestion}
-        number={currentIndex + 1}
-        total={questions.length}
+  <div class="card">
+    {#if screen === "start"}
+      <StartScreen total={questions.length} onstart={startQuiz} />
+    {:else if screen === "quiz"}
+      {#key currentIndex}
+        <QuestionCard
+          question={currentQuestion}
+          number={currentIndex + 1}
+          total={questions.length}
+          {score}
+          onanswer={handleAnswer}
+          onnext={nextQuestion}
+          ontimeout={handleTimeout}
+        />
+      {/key}
+    {:else}
+      <ResultScreen
         {score}
-        onanswer={handleAnswer}
-        onnext={nextQuestion}
-        ontimeout={handleTimeout}
+        total={questions.length}
+        {questions}
+        {answers}
+        onrestart={startQuiz}
       />
-    {/key}
-  {:else}
-    <ResultScreen
-      {score}
-      total={questions.length}
-      {questions}
-      {answers}
-      onrestart={startQuiz}
-    />
-  {/if}
+    {/if}
+  </div>
 </main>
 
 <style>
   main {
-    max-width: 520px;
-    margin: 3rem auto;
-    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+
+  .card {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgb(0 0 0 / 0.06);
+  }
+
+  @media (max-width: 480px) {
+    main {
+      padding: 0.5rem;
+    }
+
+    .card {
+      margin-top: 0.5rem;
+      padding: 1rem;
+    }
   }
 </style>

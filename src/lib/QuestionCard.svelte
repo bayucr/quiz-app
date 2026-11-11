@@ -8,7 +8,6 @@
   let timeLeft = $state(TIME_LIMIT);
   let answered = $derived(selected !== null);
 
-  // EFFECT: menjalankan timer, berhenti saat soal sudah dijawab
   $effect(() => {
     if (answered) return;
 
@@ -20,7 +19,6 @@
       }
     }, 1000);
 
-    // fungsi pembersih: dijalankan saat effect berhenti atau komponen dihapus
     return () => clearInterval(id);
   });
 
@@ -31,8 +29,23 @@
   }
 </script>
 
-<p>Soal {number} dari {total}</p>
-<p class="timer" class:danger={timeLeft <= 10}>Waktu: {timeLeft} detik</p>
+<div
+  class="progress"
+  role="progressbar"
+  aria-valuemin="1"
+  aria-valuemax={total}
+  aria-valuenow={number}
+>
+  <div class="bar" style:width="{(number / total) * 100}%"></div>
+</div>
+
+<div class="top">
+  <span class="muted">Soal {number} dari {total}</span>
+  <span class="timer" class:danger={timeLeft <= 10}
+    >Waktu: {timeLeft} detik</span
+  >
+</div>
+
 <h2>{question.question}</h2>
 
 <div class="options">
@@ -50,41 +63,87 @@
 
 {#if answered}
   <p class="explanation">{question.explanation}</p>
-  <button onclick={onnext}>
+  <button class="primary" onclick={onnext}>
     {number === total ? "Lihat hasil" : "Berikutnya"}
   </button>
 {/if}
 
-<p>Skor: {score}</p>
+<p class="score">Skor: {score}</p>
 
 <style>
+  .progress {
+    height: 8px;
+    margin-bottom: 1rem;
+    background: var(--border);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .bar {
+    height: 100%;
+    background: var(--primary);
+    transition: width 0.3s;
+  }
+
+  .top {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .muted {
+    color: var(--muted);
+  }
+
   .timer {
-    font-weight: bold;
+    font-weight: 600;
   }
 
   .danger {
-    color: #d64545;
+    color: var(--wrong);
   }
 
   .options {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    margin: 1rem 0;
+    gap: 0.6rem;
+    margin: 1.25rem 0;
+  }
+
+  .options button {
+    text-align: left;
+  }
+
+  .options button:disabled:not(.correct):not(.wrong) {
+    opacity: 0.55;
+  }
+
+  .correct,
+  .wrong {
+    color: white;
+    border-color: transparent;
   }
 
   .correct {
-    background: #2e9e5b;
-    color: white;
+    background: var(--correct);
   }
 
   .wrong {
-    background: #d64545;
-    color: white;
+    background: var(--wrong);
   }
 
   .explanation {
-    margin: 1rem 0;
-    font-style: italic;
+    margin: 0 0 1rem;
+    padding: 0.75rem 1rem;
+    border-left: 4px solid var(--primary);
+    background: var(--bg);
+    border-radius: 6px;
+  }
+
+  .score {
+    margin: 1rem 0 0;
+    color: var(--muted);
+    font-size: 0.9rem;
   }
 </style>
