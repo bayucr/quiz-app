@@ -8,7 +8,7 @@
   function choose(index) {
     if (answered) return;
     selected = index;
-    onanswer(index === question.answer);
+    onanswer(index); // sebelumnya: onanswer(index === question.answer)
   }
 </script>
 

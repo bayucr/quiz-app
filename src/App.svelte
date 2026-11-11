@@ -7,13 +7,21 @@
   let screen = $state("start");
   let currentIndex = $state(0);
   let score = $state(0);
+  let answers = $state([]);
 
   let currentQuestion = $derived(questions[currentIndex]);
 
   function startQuiz() {
     currentIndex = 0;
     score = 0;
+    answers = [];
     screen = "quiz";
+  }
+
+  function handleAnswer(selectedIndex) {
+    const isCorrect = selectedIndex === currentQuestion.answer;
+    if (isCorrect) score++;
+    answers.push({ selected: selectedIndex, isCorrect });
   }
 
   function nextQuestion() {
@@ -22,14 +30,6 @@
     } else {
       screen = "result";
     }
-  }
-
-  function restart() {
-    screen = "start";
-  }
-
-  function handleAnswer(isCorrect) {
-    if (isCorrect) score++;
   }
 </script>
 
@@ -48,7 +48,13 @@
       />
     {/key}
   {:else}
-    <ResultScreen {score} total={questions.length} onrestart={restart} />
+    <ResultScreen
+      {score}
+      total={questions.length}
+      {questions}
+      {answers}
+      onrestart={startQuiz}
+    />
   {/if}
 </main>
 
