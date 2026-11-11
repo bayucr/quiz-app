@@ -13,7 +13,11 @@
   {#each questions as q, i}
     <li class={answers[i].isCorrect ? "ok" : "bad"}>
       <strong>{i + 1}. {q.question}</strong>
-      <span>Jawabanmu: {q.options[answers[i].selected]}</span>
+      <span>
+        Jawabanmu: {answers[i].selected === null
+          ? "Waktu habis"
+          : q.options[answers[i].selected]}
+      </span>
       {#if !answers[i].isCorrect}
         <span>Jawaban benar: {q.options[q.answer]}</span>
       {/if}

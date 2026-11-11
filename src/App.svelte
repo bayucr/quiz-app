@@ -24,6 +24,12 @@
     answers.push({ selected: selectedIndex, isCorrect });
   }
 
+  function handleTimeout() {
+    score = Math.max(0, score - 1);
+    answers.push({ selected: null, isCorrect: false });
+    nextQuestion();
+  }
+
   function nextQuestion() {
     if (currentIndex < questions.length - 1) {
       currentIndex++;
@@ -45,6 +51,7 @@
         {score}
         onanswer={handleAnswer}
         onnext={nextQuestion}
+        ontimeout={handleTimeout}
       />
     {/key}
   {:else}

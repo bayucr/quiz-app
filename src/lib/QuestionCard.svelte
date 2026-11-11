@@ -1,18 +1,38 @@
 <script>
-  let { question, number, total, score, onanswer, onnext } = $props();
+  let { question, number, total, score, onanswer, onnext, ontimeout } =
+    $props();
 
-  // STATE LOKAL: hanya kartu ini yang butuh tahu pilihan pemain
+  const TIME_LIMIT = 60;
+
   let selected = $state(null);
+  let timeLeft = $state(TIME_LIMIT);
   let answered = $derived(selected !== null);
+
+  // EFFECT: menjalankan timer, berhenti saat soal sudah dijawab
+  $effect(() => {
+    if (answered) return;
+
+    const id = setInterval(() => {
+      timeLeft--;
+      if (timeLeft <= 0) {
+        clearInterval(id);
+        ontimeout();
+      }
+    }, 1000);
+
+    // fungsi pembersih: dijalankan saat effect berhenti atau komponen dihapus
+    return () => clearInterval(id);
+  });
 
   function choose(index) {
     if (answered) return;
     selected = index;
-    onanswer(index); // sebelumnya: onanswer(index === question.answer)
+    onanswer(index);
   }
 </script>
 
 <p>Soal {number} dari {total}</p>
+<p class="timer" class:danger={timeLeft <= 10}>Waktu: {timeLeft} detik</p>
 <h2>{question.question}</h2>
 
 <div class="options">
@@ -38,6 +58,14 @@
 <p>Skor: {score}</p>
 
 <style>
+  .timer {
+    font-weight: bold;
+  }
+
+  .danger {
+    color: #d64545;
+  }
+
   .options {
     display: flex;
     flex-direction: column;
