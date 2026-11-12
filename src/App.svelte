@@ -4,14 +4,26 @@
   import QuestionCard from "./lib/QuestionCard.svelte";
   import ResultScreen from "./lib/ResultScreen.svelte";
 
+  // Fisher-Yates: cara standar mengacak array secara adil
+  function shuffle(array) {
+    const copy = [...array];
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  }
+
   let screen = $state("start");
   let currentIndex = $state(0);
   let score = $state(0);
   let answers = $state([]);
+  let quizQuestions = $state([]);
 
-  let currentQuestion = $derived(questions[currentIndex]);
+  let currentQuestion = $derived(quizQuestions[currentIndex]);
 
   function startQuiz() {
+    quizQuestions = shuffle(questions);
     currentIndex = 0;
     score = 0;
     answers = [];
@@ -31,7 +43,7 @@
   }
 
   function nextQuestion() {
-    if (currentIndex < questions.length - 1) {
+    if (currentIndex < quizQuestions.length - 1) {
       currentIndex++;
     } else {
       screen = "result";
@@ -59,7 +71,7 @@
       <ResultScreen
         {score}
         total={questions.length}
-        {questions}
+        questions={quizQuestions}
         {answers}
         onrestart={startQuiz}
       />

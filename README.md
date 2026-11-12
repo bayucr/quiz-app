@@ -1,43 +1,62 @@
-# Svelte + Vite
+# Quiz Svelte
 
-This template should help get you started developing with Svelte in Vite.
+Aplikasi quiz interaktif untuk belajar Svelte 5, dibuat sebagai latihan
+mempelajari Svelte dan Vite.
 
-## Recommended IDE Setup
+**Demo:** https://USERNAME.github.io/quiz-app/
 
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
+## Fitur
 
-## Need an official Svelte framework?
+- 10 soal pilihan ganda tentang Svelte 5
+- Urutan soal diacak setiap kali quiz dimulai
+- Umpan balik langsung (hijau/merah) beserta penjelasan jawaban
+- Timer 60 detik per soal; skor berkurang 1 jika waktu habis
+- Rekap jawaban di akhir quiz
+- Tampilan responsif dan mendukung mode gelap
 
-Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
+## Teknologi
 
-## Technical considerations
+- [Svelte 5](https://svelte.dev) (runes: `$state`, `$derived`, `$effect`, `$props`)
+- [Vite](https://vite.dev)
+- GitHub Actions + GitHub Pages untuk deploy
 
-**Why use this over SvelteKit?**
+## Menjalankan di komputer sendiri
 
-- It brings its own routing solution which might not be preferable for some users.
-- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
-
-This template contains as little as possible to get started with Vite + Svelte, while taking into account the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
-
-Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
-
-**Why include `.vscode/extensions.json`?**
-
-Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to install the recommended extension upon opening the project.
-
-**Why enable `checkJs` in the JS template?**
-
-It is likely that most cases of changing variable types in runtime are likely to be accidental, rather than deliberate. This provides advanced typechecking out of the box. Should you like to take advantage of the dynamically-typed nature of JavaScript, it is trivial to change the configuration.
-
-**Why is HMR not preserving my local component state?**
-
-HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr` and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the details [here](https://github.com/sveltejs/svelte-hmr/tree/master/packages/svelte-hmr#preservation-of-local-state).
-
-If you have state that's important to retain within a component, consider creating an external store which would not be replaced by HMR.
-
-```js
-// store.js
-// An extremely simple external store
-import { writable } from 'svelte/store'
-export default writable(0)
+```bash
+git clone https://github.com/USERNAME/quiz-app.git
+cd quiz-app
+npm install
+npm run dev
 ```
+
+## Menambah soal
+
+Edit `src/lib/questions.json`. Format satu soal:
+
+```json
+{
+  "id": 11,
+  "question": "Teks pertanyaan",
+  "options": ["Pilihan A", "Pilihan B", "Pilihan C", "Pilihan D"],
+  "answer": 0,
+  "explanation": "Penjelasan jawaban benar"
+}
+```
+
+`answer` adalah nomor index (mulai dari 0) pilihan yang benar.
+
+## Struktur
+
+```
+src/
+├── App.svelte             # state utama dan alur antar layar
+├── app.css                # gaya global dan variabel warna
+└── lib/
+    ├── StartScreen.svelte
+    ├── QuestionCard.svelte
+    ├── ResultScreen.svelte
+    └── questions.json
+```
+
+Proyek ini mengacu pada spesifikasi [Quiz App](https://roadmap.sh/projects/quiz-app)
+dari roadmap.sh.
