@@ -14,6 +14,12 @@
     return copy;
   }
 
+  function prepareQuestion(q) {
+    const correctText = q.options[q.answer];
+    const options = shuffle(q.options);
+    return { ...q, options, answer: options.indexOf(correctText) };
+  }
+
   let screen = $state("start");
   let currentIndex = $state(0);
   let score = $state(0);
@@ -23,7 +29,7 @@
   let currentQuestion = $derived(quizQuestions[currentIndex]);
 
   function startQuiz() {
-    quizQuestions = shuffle(questions);
+    quizQuestions = shuffle(questions).map(prepareQuestion);
     currentIndex = 0;
     score = 0;
     answers = [];
